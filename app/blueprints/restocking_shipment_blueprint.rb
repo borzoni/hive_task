@@ -20,7 +20,8 @@ class RestockingShipmentBlueprint < Blueprinter::Base
   view :extended do
     include_view :normal
 
-    fields :id, :shipping_cost
+    fields :id, :shipping_cost, :tracking_code
+    field :estimated_arrival_date,  datetime_format: "%Y-%m-%d"
 
     association :restocking_shipment_items, blueprint: RestockingItemBlueprint
   end

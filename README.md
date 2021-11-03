@@ -1,3 +1,26 @@
+# Task Completion Notes
+Hey, I decided to challenge myself and develop something useful as a thing.
+The thing that always amazed me during my Ruby career that at every project I collaborated on, people develop various solutions for the service object pattern. 
+Frankly, I didn't liked either of the solutions, but the convention was kind of settled and I didn't have time to articulate my feelings about what makes a good service objects.
+So, I sat down and came with this thoughts:
+* Service object needs to enforce a contract.
+* Service object needs to be composable. Sorry, my FP background :)
+* Service object should enforce testability and use some kind of DI
+
+So, I decided to adopt something really close to my heart and picked dry-rb stack and integrated only the parts that I needed and I can advocate that the developed solution solves all the goals stated above with nice minimal API. What's more - this solution can work with nested transactions seamlessly and without type splitting on the traits like 'WithTransaction' or whatever. That's the feature I like the most. 
+Remember I prioritized the maximal composability - so transactions and all the other cross stuff shouldn't change compasability guaranties stated with monadic interface on Result type(shortcircuiting included)
+
+Other bell and whistles included
+* Swagger docs
+* jwt auth
+* Grape api with some of the modifications that i believe makes the api creation comfortable and safe.
+* Rspecs for interactors and main task
+
+Thoughts on improvements
+* Tests on controller should be splitted for serializers and request specs, really should be done if serializers continues to evolve and new views are added.
+* The RestockingInteractor is the most bacis one, so I can't demonstrate enforced testability and composability with DI via dry-initilizer, so maybe some kind of merge logic can be thought (if there are some restocks for the same day - then recalculate quantites and shipping cost and so on). So with this reqs with would have new Merger interactor that would be passed with like 
+`option :merger, default: -> { MergerImpl }` 
+And we can easily stub it, we can enclose in the transaction, and not to mention how clean it looks when we can see all the dependencies on the top of the interactor.
 # Coding Challenge with Hive
 
 Hey 👋 We're happy you're here! To give you a taste of life at Hive, we wanted to use an example that's as close to the day-to-day work you'll encounter as possible. This challenge is a (simplified version of) a real feature we've built some time ago at Hive. 

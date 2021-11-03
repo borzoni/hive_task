@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_10_083357) do
+ActiveRecord::Schema.define(version: 2021_11_03_155111) do
+
+  create_table "allowlisted_jwts", force: :cascade do |t|
+    t.string "jti", null: false
+    t.string "aud"
+    t.datetime "exp", null: false
+    t.integer "user_id", null: false
+    t.index ["jti"], name: "index_allowlisted_jwts_on_jti", unique: true
+    t.index ["user_id"], name: "index_allowlisted_jwts_on_user_id"
+  end
 
   create_table "merchant_accounts", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -40,10 +49,12 @@ ActiveRecord::Schema.define(version: 2020_07_10_083357) do
   create_table "restocking_shipments", force: :cascade do |t|
     t.integer "shipment_provider_id", null: false
     t.integer "merchant_id", null: false
-    t.string "status"
-    t.float "shipping_cost"
+    t.integer "status", default: 0
+    t.integer "shipping_cost"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.date "estimated_arrival_date"
+    t.string "tracking_code"
     t.index ["merchant_id"], name: "index_restocking_shipments_on_merchant_id"
     t.index ["shipment_provider_id"], name: "index_restocking_shipments_on_shipment_provider_id"
   end
@@ -64,8 +75,15 @@ ActiveRecord::Schema.define(version: 2020_07_10_083357) do
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.string "email", null: false
+    t.datetime "reset_password_sent_at"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "allowlisted_jwts", "users", on_delete: :cascade
   add_foreign_key "merchant_accounts", "merchants"
   add_foreign_key "merchant_accounts", "users"
   add_foreign_key "restocking_shipment_items", "restocking_shipments"

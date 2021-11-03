@@ -22,6 +22,15 @@ gem 'jbuilder', '~> 2.7'
 gem "blueprinter", "~> 0.25.0"
 gem "devise", "~> 4.7.2"
 gem "jwt", "~> 2.2"
+gem 'devise-jwt'
+gem "dry-validation"
+gem "dry-types"
+gem "dry-monads"
+gem "dry-initializer"
+gem 'grape'
+gem 'grape-swagger'
+gem 'grape-swagger-rails'
+gem 'rack-cors'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
